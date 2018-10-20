@@ -12,7 +12,7 @@ Matériel :
 liaison SPI, [tutoriel](https://learn.sparkfun.com/tutorials/deadon-rtc-breakout-hookup-guide?_ga=2.135879217.1217604853.1540041757-1824790857.1517077689). Connexion : mosi au pin 11 sur l’arduino, miso au pin 12, ss au pin 10 (défini dans le code par #define DS13074_CS_PIN 10, permet d’identifier le composant (slave)) et clk au pin 13 + alimentation (+5V, et GROUND). On n’utilise pas le pin sqw (alarme).
 
 * LCD : liaison I2C, 2 fils d’alimentation (+5V, GROUND) + communication série : connecter SLC vers A5 et SLA vers A4.
-* DTH22 : capteur numérique, connecter
+* DTH22 : capteur de température et d'humidité numérique, connecter :
    * pin 1 vers +5V
    * pin 2 du DHT22 vers pin 3 de l’arduino (on peut choisir un autre pin en modifiant la ligne de code : #define DHTPIN 3)
    * pin 4 vers GROUND
@@ -25,6 +25,7 @@ Remarques :
 
 1. On a fait le choix de ne pas afficher les secondes et de rafraichir toutes les minutes parce que la librairie "LiquidCrystal_I2C" ne permet pas d'utiliser plusieurs "threads" en parallèle. On est donc obligé de faire toutes les actions dans la boucle principale. On ne peut pas rafraichir toute les secondes, parce que les opérations peuvent durer plus d'une seconde. Voilà.
 2. **Il faut initialiser explicitement la date et l'heure quand on téléverse le croquis**, avec la méthode avec 'rtc.setTime', parce que la méthode 'rtc.autoTime' initialise l'horloge au moment où l'EDI Arduino a été lancé et non au moment de la compilation! 
+3. On peut remplacer le capteur numérique DTH22 par un capteur de température analogique lm35 par exemple.
 
 Amusez-vous bien!
 
