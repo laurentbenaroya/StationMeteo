@@ -131,7 +131,7 @@ void setup()
 
   //////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////
-  rtc.setTime(00, 01, 22, 7, 20, 10, 18);  // manually set time
+  rtc.setTime(0, 55, 10, 1, 28, 10, 18);    // manually set time
   //////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////
 
@@ -178,29 +178,33 @@ void loop()
 {
   static int8_t lastMinute = -1;
   
-  h = dht.readHumidity();
-  // Read temperature as Celsius (the default)
-  t = dht.readTemperature();
-
-  // display temperature
-  lcd.setCursor(0+3,1);
-  dtostrf(t, 2+1+1, 1, stringT);
-  lcd.print(stringT);
-
-  // display humidity
-  lcd.setCursor(8+3,1);
-  dtostrf(h, 2+1+1, 1, stringH);
-  lcd.print(stringH);
-
-  
   // Call rtc.update() to update all rtc.seconds(), rtc.minutes(),
   // etc. return functions.
   rtc.update();
 
   if (rtc.minute() != lastMinute) // minutes!
   {
+    ///// DHT
+    // read humitdity (DTH 22)
+    h = dht.readHumidity();
+    dtostrf(h, 2+1+1, 1, stringH);
+    // Read temperature as Celsius (the default)
+    t = dht.readTemperature();
+    dtostrf(t, 2+1+1, 1, stringT);
+
+    ///// LCD
+    // print time
     printTimeLCD(false); // Print the new time    
     lastMinute = rtc.minute(); // Update lastSecond value
+
+    // print temperature and humidity
+    // display temperature
+    lcd.setCursor(0+3,1);    
+    lcd.print(stringT);
+  
+    // display humidity
+    lcd.setCursor(8+3,1);    
+    lcd.print(stringH);
   } 
   
 }
