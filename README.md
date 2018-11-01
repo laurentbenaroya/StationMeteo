@@ -7,17 +7,23 @@ L’écran affiche aussi la température et l’humidité.
 Matériel :
 
 * capteur de température et d’humidité DHT22 : voir le [lien DHT22](https://create.arduino.cc/projecthub/achraf-oukheir/weather-sensors-between-dht11-and-dht22-60bb4f?ref=tag&ref_id=temperature&offset=1) et la [librairie](https://github.com/adafruit/DHT-sensor-library)
-* écran LCD 16 x 2 caractères avec interface série I2C, i.e. 4 fils [documentation pdf](https://www.gotronic.fr/pj2-sbc-lcd16x2-fr-1441.pdf)
+* écran LCD 16 x 2 caractères avec interface série I2C, i.e. 4 fils [documentation pdf](https://www.gotronic.fr/pj2-sbc-lcd16x2-fr-1441.pdf),
+   * 2 fils d’alimentation (+5V, GROUND)
+   * communication série : connecter SLC vers A5 et SLA vers A4).
 * horloge temps réel RTC Breakout – DS3234 avec pile 1225. Ce composant est censé être très précis. Permet de garder l’heure même si on débranche l’arduino ! 
-liaison SPI, [tutoriel](https://learn.sparkfun.com/tutorials/deadon-rtc-breakout-hookup-guide?_ga=2.135879217.1217604853.1540041757-1824790857.1517077689). Connexion : mosi au pin 11 sur l’arduino, miso au pin 12, ss au pin 10 (défini dans le code par #define DS13074_CS_PIN 10, permet d’identifier le composant (slave)) et clk au pin 13 + alimentation (+5V, et GROUND). On n’utilise pas le pin sqw (alarme).
-
-* LCD : liaison I2C, 2 fils d’alimentation (+5V, GROUND) + communication série : connecter SLC vers A5 et SLA vers A4.
+  liaison SPI, [tutoriel](https://learn.sparkfun.com/tutorials/deadon-rtc-breakout-hookup-guide?_ga=2.135879217.1217604853.1540041757-1824790857.1517077689). Connexion : 
+  * mosi au pin 11 de l’arduino, 
+  * miso au pin 12, 
+  * ss au pin 10 (défini dans le code par #define DS13074_CS_PIN 10, permet d’identifier le composant (slave)) 
+  * clk au pin 13 
+  * alimentation (+5V, et GROUND). 
+  * On n’utilise pas le pin sqw (alarme).
 * DTH22 : capteur de température et d'humidité numérique, connecter :
    * pin 1 vers +5V
    * pin 2 du DHT22 vers pin 3 de l’arduino (on peut choisir un autre pin en modifiant la ligne de code : #define DHTPIN 3)
    * pin 4 vers GROUND
    * Ajouter une résistance d’environ 10k en le pin 2 du composant (données) et le pin 1 du composant (+5V)
-   
+
 Le code permet d'afficher sur la première ligne de l'écran : heure:minutes jour/mois 'nom du jour'. 
 Sur la deuxième ligne la température et l'humidité.
 
@@ -31,4 +37,5 @@ Amusez-vous bien!
 
 TODO:
 
-Ajouter une mémoire eeprom pour faire un relevé la température et l'humidité chaque jour, par exemple.
+1. Ajouter une mémoire eeprom pour faire un relevé la température et l'humidité chaque jour, par exemple.
+2. On pourrait ajouter deux boutons pressoir pour régler l'heure, mais ça n'est pas trivial car on ne peut pas utiliser plusieurs threads en parallèle.

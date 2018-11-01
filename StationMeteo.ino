@@ -131,7 +131,7 @@ void setup()
 
   //////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////
-  rtc.setTime(0, 55, 10, 1, 28, 10, 18);    // manually set time
+  // rtc.setTime(0, 55, 10, 1, 28, 10, 18);    // manually set time
   //////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////
 
@@ -252,16 +252,17 @@ void printTimeLCD(bool bdate)
   // print time on LCD screen
   rtc.update();
   lcd.setCursor(0,0);  // Print hour
-  if (rtc.hour() < 10)
-    lcd.print("0");  
   uint8_t hh = rtc.hour();
+  if (hh < 10)
+    lcd.print("0");  
   lcd.print(String(hh));
   lcd.print(":");
   
   // Print minute
-  if (rtc.minute() < 10)
+  uint8_t mm = rtc.minute();
+  if ( mm < 10)
     lcd.print("0");   
-  lcd.print(String(rtc.minute()));
+  lcd.print(String(mm));
   //lcd.print(":");
 
 /*
@@ -273,11 +274,16 @@ void printTimeLCD(bool bdate)
   if ((hh == 0) || bdate) // update date
   {
     lcd.setCursor(7,0);
-
-    lcd.print(rtc.getDate());
+    uint8_t dd = rtc.getDate();
+    if (dd < 10) 
+      lcd.print("0");
+    lcd.print(String(dd));
     lcd.print("/");
     lcd.setCursor(10,0);
-    lcd.print(rtc.getMonth());
+    uint8_t mo = rtc.getMonth();
+    if (mo < 10)
+      lcd.print("0");
+    lcd.print(String(mo));
 
     lcd.setCursor(13,0);
     lcd.print(dayIntToStr3[rtc.getDay()-1]); // day substr
