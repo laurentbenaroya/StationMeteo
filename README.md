@@ -30,8 +30,11 @@ Sur la deuxième ligne la température et l'humidité.
 Remarques :
 
 1. On a fait le choix de ne pas afficher les secondes et de rafraichir toutes les minutes parce que la librairie "LiquidCrystal_I2C" ne permet pas d'utiliser plusieurs "threads" en parallèle. On est donc obligé de faire toutes les actions dans la boucle principale. On ne peut pas rafraichir toute les secondes, parce que les opérations peuvent durer plus d'une seconde. Voilà.
-2. **Il faut initialiser explicitement la date et l'heure quand on téléverse le croquis**, avec la méthode avec 'rtc.setTime', parce que la méthode 'rtc.autoTime' initialise l'horloge au moment où l'EDI Arduino a été lancé et non au moment de la compilation! 
+2. **Il faut initialiser explicitement la date et l'heure quand on téléverse le croquis**, avec la méthode avec 'rtc.setTime', parce que la méthode 'rtc.autoTime' initialise l'horloge au moment où l'EDI Arduino a été lancé et non au moment de la compilation!
+   * Dans un premier temps, téléverser le croquis avec `rtc.setTime(0, 55, 10, 1, 28, 10, 18);` avec la bonne heure et la bonne date - ici dimanche(1) 28/10/2018 à 10h55.
+   * Dans un second temps, commenter cette ligne et téléverser à nouveau. Cela permet de pouvoir de presser le bouton reset sans définir à nouveau l'heure dans l'horloge.
 3. On peut remplacer le capteur numérique DTH22 par un capteur de température analogique lm35 par exemple.
+4. Noter que l'horloge DS3234 fait le changement d'heure automatiquement.
 
 Amusez-vous bien!
 
