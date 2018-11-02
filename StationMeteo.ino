@@ -131,7 +131,7 @@ void setup()
 
   //////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////
-  // rtc.setTime(0, 55, 10, 1, 28, 10, 18);    // manually set time
+  rtc.setTime(0, 58, 12, 5, 1, 11, 18);    // manually set time
   //////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////
 
@@ -176,26 +176,25 @@ void setup()
 
 void loop() 
 {
-  static int8_t lastMinute = -1;
+  static int8_t lastSecond = -1;
   
   // Call rtc.update() to update all rtc.seconds(), rtc.minutes(),
   // etc. return functions.
   rtc.update();
 
-  if (rtc.minute() != lastMinute) // minutes!
+  if (rtc.second() != ((lastSecond+20) % 60)) // 20 seconds
   {
+    ///// display on LCD
+    
     ///// DHT
-    // read humitdity (DTH 22)
-    h = dht.readHumidity();
-    dtostrf(h, 2+1+1, 1, stringH);
     // Read temperature as Celsius (the default)
     t = dht.readTemperature();
     dtostrf(t, 2+1+1, 1, stringT);
+    
+    // read humitdity (DTH 22)
+    h = dht.readHumidity();
+    dtostrf(h, 2+1+1, 1, stringH);
 
-    ///// LCD
-    // print time
-    printTimeLCD(false); // Print the new time    
-    lastMinute = rtc.minute(); // Update lastSecond value
 
     // print temperature and humidity
     // display temperature
@@ -205,6 +204,14 @@ void loop()
     // display humidity
     lcd.setCursor(8+3,1);    
     lcd.print(stringH);
+    
+
+    ////// print time
+    printTimeLCD(false); // Print the new time        
+
+    // Update lastSecond 
+    rtc.update();
+    lastSecond = rtc.second();
   } 
   
 }
