@@ -24,6 +24,8 @@ Matériel :
    * pin 4 vers GROUND
    * Ajouter une résistance d’environ 10k en le pin 2 du composant (données) et le pin 1 du composant (+5V)
 
+![Schema connexions](StationMeteo_bb.jpg "Schema connexions")
+
 Le code permet d'afficher sur la première ligne de l'écran : heure:minutes jour/mois 'nom du jour'. 
 Sur la deuxième ligne la température et l'humidité.
 
