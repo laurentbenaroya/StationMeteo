@@ -34,7 +34,8 @@ SparkFun Real Time Clock Module (v14)
 /* Get the LCD I2C Library here: 
  https://bitbucket.org/fmalpartida/new-liquidcrystal/downloads
  Move any other LCD libraries to another folder or delete them
- See Library "Docs" folder for possible commands etc.
+ See Library "Docs" folder for possible 
+ commands etc.
  */
 #include <LiquidCrystal_I2C.h>
 
@@ -48,7 +49,8 @@ SparkFun Real Time Clock Module (v14)
 LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);  // Set the LCD I2C address
 char stringT[16] = {'\0'};
 char stringH[16];
-
+#define pinbacklight 2
+bool isbacklight;
 /* 
  *  RTC
  * Comment out the line below if you want date printed before month.
@@ -131,7 +133,7 @@ void setup()
 
   //////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////
-  rtc.setTime(0, 58, 12, 5, 1, 11, 18);    // manually set time
+  // rtc.setTime(0, 5, 20, 1, 3, 5, 20);    // manually set time
   //////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////
 
@@ -153,8 +155,26 @@ void setup()
     lcd.noBacklight();
     delay(250);
   }
-  lcd.backlight(); // finish with backlight on  
-
+  // isbacklight = true;
+  pinMode(pinbacklight, INPUT);
+  
+  bool isbacklight1 = digitalRead(pinbacklight);  // read button
+  isbacklight = isbacklight1;
+  if (isbacklight1)
+    lcd.backlight(); // finish with backlight on 
+  else
+    lcd.noBacklight();
+  /*if ((sbacklight1) & (!isbacklight))  // if button is up and screen is off
+  {
+    lcd.backlight(); // finish with backlight on  
+    isbacklight = true;
+  }
+  else if ((!sbacklight1) & (sbacklight)  // if buttion is low and screen is on
+  {
+    lcd.noBacklight();
+    isbacklight = false;
+  }
+  */
 //-------- Write characters on the display ------------------
 // NOTE: Cursor Position: (CHAR, LINE) start at 0  
   lcd.setCursor(0,0); //Start at character 0 on line 0
@@ -181,9 +201,21 @@ void loop()
   // Call rtc.update() to update all rtc.seconds(), rtc.minutes(),
   // etc. return functions.
   rtc.update();
-
+  bool isbacklight1;
   if (rtc.second() != ((lastSecond+20) % 60)) // 20 seconds
   {
+      isbacklight1 = digitalRead(pinbacklight);  // read button
+      if ((isbacklight1) & (!isbacklight))  // if button is up and screen is off
+      {
+        lcd.backlight(); // finish with backlight on  
+        isbacklight = true;
+      }
+      else if ((!isbacklight1) & (isbacklight))  // if buttion is low and screen is on
+      {
+        lcd.noBacklight();
+        isbacklight = false;
+      }
+
     ///// display on LCD
     
     ///// DHT
